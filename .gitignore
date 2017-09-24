@@ -65,6 +65,7 @@ docs/_build/
 
 # PyBuilder
 target/
+.metadata
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -101,3 +102,4 @@ ENV/
 
 # data file
 Gait Data for Dingwen.xlsx
+book2.xlsx

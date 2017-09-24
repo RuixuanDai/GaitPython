@@ -1,6 +1,7 @@
 
 import xlrd
 import filter
+import phaseDetect
 
 import numpy as np
 from scipy.fftpack import fft,ifft
@@ -45,11 +46,29 @@ y1fft = fft(y1)[:n/2]
 y2fft = fft(y2)[:n/2]
 y3fft = fft(y3)[:n/2]
 
-
-
+y3ori = list(y3)
+y3copy = list(y3)
+# print y3
+y3Avr = filter.avrSmooth(list(y3))
 y3MediaSmooth = filter.medianSmooth(y3)
+#print y3MediaSmooth
+
+filter.zeroOffset(y3Avr)
+filter.zeroOffset(y3MediaSmooth)
+
+print 'Median:%d , Avr:%d'% (phaseDetect.zeroDetect(y3MediaSmooth,5),phaseDetect.zeroDetect(y3Avr,5))
 
 
+
+
+# plt.subplot(211)
+# plt.plot(x,y3,color='r')
+# plt.subplot(212)
+# plt.plot(x,y3MediaSmooth,color='b')
+# plt.plot(x,y3Avr,color='black')
+# plt.plot(x,y3ori,color='r')
+# # plt.plot(x,y3MediaSmooth,color='b')
+# plt.show()
 
 
 
