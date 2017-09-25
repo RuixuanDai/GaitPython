@@ -101,5 +101,5 @@ ENV/
 
 
 # data file
-Gait Data for Dingwen.xlsx
-book2.xlsx
+*.xlsx
+

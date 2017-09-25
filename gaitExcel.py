@@ -32,10 +32,10 @@ tableSlow7RX = excel.sheets()[1]
 
 
 
-x=tableSlow7RX.col_values(0)
-y1=tableSlow7RX.col_values(1)
-y2=tableSlow7RX.col_values(2)
-y3=tableSlow7RX.col_values(3)
+x = tableSlow7RX.col_values(0)
+y1 = tableSlow7RX.col_values(1)
+y2 = tableSlow7RX.col_values(2)
+y3 = tableSlow7RX.col_values(3)
 
 fs = 10 # sampling rate 10Hz
 n = len(x) # num sample
@@ -49,15 +49,27 @@ y3fft = fft(y3)[:n/2]
 y3ori = list(y3)
 y3copy = list(y3)
 # print y3
-y3Avr = filter.avrSmooth(list(y3))
+y3Avr = filter.avrSmooth(y3)
 y3MediaSmooth = filter.medianSmooth(y3)
-#print y3MediaSmooth
+# print y3MediaSmooth
+# print y3Avr
+y3Avr = filter.zeroOffset(y3Avr)
+y3MediaSmooth = filter.zeroOffset(y3MediaSmooth)
 
-filter.zeroOffset(y3Avr)
-filter.zeroOffset(y3MediaSmooth)
+print sum(y3Avr)/float(len(y3Avr))
 
-print 'Median:%d , Avr:%d'% (phaseDetect.zeroDetect(y3MediaSmooth,5),phaseDetect.zeroDetect(y3Avr,5))
+num1,zeros1 = phaseDetect.zeroDetect(y3MediaSmooth,5)
+num2,zeros2 = phaseDetect.zeroDetect(y3Avr,5)
 
+print 'Median:%d , Avr:%d'% (num1,num2)
+print zeros1
+print zeros2
+
+peaks1,position1 = phaseDetect.peakDetect(y3,zeros1)
+
+print peaks1
+print position1
+print [y3[n] for n in position1]
 
 
 
