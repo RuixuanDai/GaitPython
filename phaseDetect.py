@@ -35,16 +35,17 @@ def peakDetect(y,zeros):
         peaks.append(minimum)
 
     for n in range(2,len(zeros)): # start from 2
-        
-        if peaks[-1]>abs(avr):  # it is a peak then find valleay
+        temp = y[zeros[n-1]:zeros[n]]
+        maximum = max(temp)
+        minimum = min(temp)
+        if abs(maximum-avr)>abs(minimum-avr):  # it is a peak
+            peakPos.append(temp.index(maximum)+zeros[n-1])
+            peaks.append(maximum)
+        else: # find valley according to the last peak
             temp = y[peakPos[-1]:zeros[n]]
             minimum = min(temp)
             peakPos.append(temp.index(minimum)+peakPos[-1])
-            peaks.append(maximum)
-        else: # find peak
-            temp = y[zeros[n-1]:zeros[n]]
-            maximum = max(temp)
-            peakPos.append(temp.index(maximum)+zeros[n-1])
             peaks.append(minimum)
+            
     return peaks,peakPos
     
