@@ -20,18 +20,31 @@ def peakDetect(y,zeros):
     #
     #  return peaks accouding to the zeros position 
     #
-    peakPos = []
     peaks = []
+    peakPos = []
     avr = sum(y)/float(len(y))
-    for n in range(1,len(zeros)): # start from 1
-        temp = y[zeros[n-1]:zeros[n]]
-        maximum = max(temp)
-        minimum = min(temp)
-        if abs(maximum-avr)>abs(minimum-avr):  # it is a peak
-            peaks.append(temp.index(maximum)+zeros[n-1])
-            peakPos.append(maximum)
-        else:
-            peaks.append(temp.index(minimum)+zeros[n-1])
-            peakPos.append(minimum)
-    return peakPos,peaks
+    temp = y[zeros[0]:zeros[1]]
+    maximum = max(temp)
+    minimum = min(temp)
+    #find the first peak or valley. note: the first valley or peak may be not accurate
+    if abs(maximum-avr)>abs(minimum-avr):  # it is a peak
+        peakPos.append(temp.index(maximum)+zeros[0])
+        peaks.append(maximum)
+    else:
+        peakPos.append(temp.index(minimum)+zeros[0])
+        peaks.append(minimum)
+
+    for n in range(2,len(zeros)): # start from 2
+        
+        if peaks[-1]>abs(avr):  # it is a peak then find valleay
+            temp = y[peakPos[-1]:zeros[n]]
+            minimum = min(temp)
+            peakPos.append(temp.index(minimum)+peakPos[-1])
+            peaks.append(maximum)
+        else: # find peak
+            temp = y[zeros[n-1]:zeros[n]]
+            maximum = max(temp)
+            peakPos.append(temp.index(maximum)+zeros[n-1])
+            peaks.append(minimum)
+    return peaks,peakPos
     
